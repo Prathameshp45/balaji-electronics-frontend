@@ -44,7 +44,7 @@ const AppRoutes = () => {
     requiredRole?: string;
   }) => {
     if (!isLoggedIn) {
-      return <Navigate to="/" replace />;
+      return <Navigate to="/login" replace />;
     }
 
     if (requiredRole && userRole !== requiredRole) {
@@ -57,7 +57,7 @@ const AppRoutes = () => {
   return (
     <AuthContext.Provider value={{ isLoggedIn, userRole, login, logout }}>
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
         
         <Route 
           path="/admin/*" 
