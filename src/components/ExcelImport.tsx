@@ -26,7 +26,7 @@ const RegisterForm = () => {
     role: 'user' as 'user' | 'admin'
   });
 
-  const API_BASE = 'https://balajii-electronices.onrender.com';
+  const API_BASE = 'https://balajii-electronices.onrender.com/api/users';
 
   // Fetch all users when users tab is active
   useEffect(() => {
