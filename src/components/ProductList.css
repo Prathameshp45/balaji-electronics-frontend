@@ -1,0 +1,265 @@
+.product-list-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.product-list-container h1 {
+  font-size: 1.5rem;
+  color: #1a1a1a;
+  margin-bottom: 2rem;
+}
+
+.search-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.search-container {
+  position: relative;
+  flex: 1;
+  max-width: 400px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+}
+
+.product-count {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.product-count span {
+  font-weight: 500;
+  color: #1a1a1a;
+}
+
+.filter-info {
+  margin-left: 0.5rem;
+  color: #6b7280;
+}
+
+.filter-buttons-container {
+  margin-bottom: 1.5rem;
+}
+
+.filter-label {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-bottom: 0.5rem;
+}
+
+.filter-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.filter-button {
+  padding: 0.5rem 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.375rem;
+  background-color: white;
+  color: #4b5563;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.filter-button:hover {
+  background-color: #f9fafb;
+  border-color: #d1d5db;
+}
+
+.filter-button.active {
+  background-color: #2563eb;
+  border-color: #2563eb;
+  color: white;
+}
+
+.unit-count {
+  background-color: rgba(255, 255, 255, 0.2);
+  padding: 0.125rem 0.375rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+}
+
+.success-message,
+.error-message {
+  padding: 1rem;
+  border-radius: 0.375rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.success-message {
+  background-color: #ecfdf5;
+  color: #059669;
+  border: 1px solid #a7f3d0;
+}
+
+.error-message {
+  background-color: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+}
+
+.loading {
+  text-align: center;
+  padding: 2rem;
+  color: #6b7280;
+}
+
+.no-products {
+  text-align: center;
+  padding: 3rem;
+  color: #6b7280;
+  background-color: #f9fafb;
+  border-radius: 0.5rem;
+}
+
+.table-container {
+  overflow-x: auto;
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.products-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.products-table th {
+  background-color: #f9fafb;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-weight: 500;
+  color: #4b5563;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.products-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #e5e7eb;
+  color: #1f2937;
+}
+
+.products-table tr:hover {
+  background-color: #f9fafb;
+}
+
+.editing-row {
+  background-color: #f0f9ff !important;
+}
+
+.delete-confirm-row {
+  background-color: #fef2f2 !important;
+}
+
+.edit-input {
+  width: 100%;
+  padding: 0.375rem 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+}
+
+.edit-input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+}
+
+.action-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.edit-button,
+.delete-button,
+.save-button,
+.cancel-button,
+.delete-confirm-button {
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+}
+
+.edit-button {
+  background-color: #059669;
+  color: white;
+}
+
+.edit-button:hover {
+  background-color: #047857;
+}
+
+.delete-button {
+  background-color: #dc2626;
+  color: white;
+}
+
+.delete-button:hover {
+  background-color: #b91c1c;
+}
+
+.save-button {
+  background-color: #2563eb;
+  color: white;
+}
+
+.save-button:hover {
+  background-color: #1d4ed8;
+}
+
+.cancel-button {
+  background-color: #6b7280;
+  color: white;
+}
+
+.cancel-button:hover {
+  background-color: #4b5563;
+}
+
+.delete-confirm-button {
+  background-color: #dc2626;
+  color: white;
+}
+
+.delete-confirm-button:hover {
+  background-color: #b91c1c;
+}
+
+.delete-confirm-message {
+  color: #dc2626;
+  font-size: 0.875rem;
+}
+
+button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+} 
