@@ -36,7 +36,7 @@ const UserLayout = () => {
   const fetchProducts = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('http://localhost:4000/api/products');
+      const response = await axios.get('https://balajii-electronices.onrender.com');
       setProducts(response.data.data);
       setError('');
     } catch (error) {

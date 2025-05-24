@@ -25,7 +25,7 @@ const Login: React.FC = () => {
       if (token && savedUserType) {
         try {
           // Verify token with backend
-          const response = await axios.get('http://localhost:4000/api/users/profile', {
+          const response = await axios.get('https://balajii-electronices.onrender.com/api/users/profile', {
             headers: {
               Authorization: `Bearer ${token}`
             }
@@ -71,7 +71,7 @@ const Login: React.FC = () => {
         ? { phoneNumber }
         : { email, password };
 
-      const response = await axios.post('http://localhost:4000/api/users/login', requestData);
+      const response = await axios.post('https://balajii-electronices.onrender.com/api/users/login', requestData);
 
       if (response.data.success) {
         const { token, role, name } = response.data.userData;

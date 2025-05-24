@@ -67,7 +67,7 @@ const ProductList = () => {
   const fetchProducts = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('http://localhost:4000/api/products');
+      const response = await axios.get('https://balajii-electronices.onrender.com/api/products');
       setProducts(response.data.data);
       setError('');
     } catch (error) {
@@ -123,7 +123,7 @@ const ProductList = () => {
   const handleSaveEdit = async () => {
     try {
       setLoading(true);
-      const response = await axios.put(`http://localhost:4000/api/products/${editingProduct}`, formData);
+      const response = await axios.put(`https://balajii-electronices.onrender.com/api/products/${editingProduct}`, formData);
       
       // Update the product in the local state
       setProducts(products.map(product => 
@@ -166,7 +166,7 @@ const ProductList = () => {
   const handleDelete = async (productId: string) => {
     try {
       setLoading(true);
-      await axios.delete(`http://localhost:4000/api/products/${productId}`);
+      await axios.delete(`https://balajii-electronices.onrender.com/api/products/${productId}`);
       
       // Remove the product from the local state
       setProducts(products.filter(product => product._id !== productId));

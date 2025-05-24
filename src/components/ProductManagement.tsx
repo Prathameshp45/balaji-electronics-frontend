@@ -57,7 +57,7 @@ const ProductManagement = () => {
   const fetchProducts = async () => {
     try {
       setIsRefreshing(true);
-      const response = await axios.get('http://localhost:4000/api/products');
+      const response = await axios.get('https://balajii-electronices.onrender.com/api/products');
       setProducts(response.data.data);
       setFilteredProducts(response.data.data);
       setIsRefreshing(false);
@@ -85,7 +85,7 @@ const ProductManagement = () => {
     setError('');
     
     try {
-      const response = await axios.post('http://localhost:4000/api/products', formData);
+      const response = await axios.post('https://balajii-electronices.onrender.com/api/products', formData);
       
       // Success animation and message
       setMessage('Product registered successfully!');
@@ -154,7 +154,7 @@ const ProductManagement = () => {
     setSkippedProducts([]);
     
     try {
-      const response = await axios.post('http://localhost:4000/api/products/import-excel', formData, {
+      const response = await axios.post('https://balajii-electronices.onrender.com/api/products/import-excel', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
