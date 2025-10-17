@@ -74,7 +74,7 @@ const UserLayout = () => {
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
           {/* Header Section */}
           <div className="p-3 sm:p-6 border-b border-gray-200">
-            <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 mb-4">Products List</h1>
+            <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 mb-4">Products Listtt</h1>
 
             {/* Search Section */}
             <div className="space-y-4">
