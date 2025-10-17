@@ -2,7 +2,7 @@ import React, { useContext, useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../routes/AppRoutes';
 import Logo from '../common/Logo';
-import { Bell, User } from 'lucide-react';
+import { User } from 'lucide-react';
 
 interface HeaderProps {
   isAdmin: boolean;
@@ -38,7 +38,7 @@ const Header = ({ isAdmin, children }: HeaderProps) => {
   }, []);
 
   return (
-    <header className="bg-white/20 backdrop-blur-3xl backdrop-saturate-200 border-b border-white/10 shadow-sm">
+    <header className="bg-white/20 backdrop-blur-3xl backdrop-saturate-200 border-b border-white/10 shadow-sm relative z-50">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Left side - Logo and Brand Name */}
@@ -52,11 +52,11 @@ const Header = ({ isAdmin, children }: HeaderProps) => {
 
           {/* Right side - Actions */}
           <div className="flex items-center space-x-3">
-            <button className="p-2 rounded-full bg-white/15 backdrop-blur-xl hover:bg-white/30 text-gray-700 transition-all duration-300 border border-white/20">
+            {/* <button className="p-2 rounded-full bg-white/15 backdrop-blur-xl hover:bg-white/30 text-gray-700 transition-all duration-300 border border-white/20">
               <Bell size={20} />
-            </button>
+            </button> */}
 
-            <div className="relative" ref={dropdownRef}>
+            <div className="relative z-[100]" ref={dropdownRef}>
               <button
                 onClick={() => setDropdownOpen(!dropdownOpen)}
                 className="p-2 rounded-full bg-white/15 backdrop-blur-xl hover:bg-white/30 text-gray-700 transition-all duration-300 border border-white/20"
@@ -65,7 +65,7 @@ const Header = ({ isAdmin, children }: HeaderProps) => {
               </button>
 
               {dropdownOpen && (
-                <div className="absolute right-0 mt-3 w-48 bg-white/25 backdrop-blur-3xl backdrop-saturate-200 rounded-2xl shadow-2xl py-2 z-50 border border-white/20">
+                <div className="absolute right-0 mt-3 w-48 bg-white/25 backdrop-blur-3xl backdrop-saturate-200 rounded-2xl shadow-2xl py-2 border border-white/20">
                   <button
                     onClick={handleLogout}
                     className="block w-full text-left px-4 py-2.5 text-sm text-red-600 hover:bg-white/25 rounded-xl mx-1 transition-all duration-200 font-medium"
