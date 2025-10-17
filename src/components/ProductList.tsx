@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ChangeEvent } from 'react';
+import { useState, useEffect, ChangeEvent } from 'react';
 import axios from 'axios';
 import './ProductList.css';
 
@@ -50,6 +50,8 @@ const ProductList = () => {
   const [message, setMessage] = useState('');
   const [selectedUnit, setSelectedUnit] = useState('all');
   const [uniqueUnits, setUniqueUnits] = useState<string[]>([]);
+  const [selectedProducts, setSelectedProducts] = useState<string[]>([]);
+  const [bulkDeleteConfirm, setBulkDeleteConfirm] = useState(false);
 
   // Fetch products on component mount
   useEffect(() => {
@@ -192,6 +194,67 @@ const ProductList = () => {
     setSelectedUnit(unit);
   };
 
+  // Handle individual product selection
+  const handleSelectProduct = (productId: string) => {
+    setSelectedProducts(prev => {
+      if (prev.includes(productId)) {
+        return prev.filter(id => id !== productId);
+      } else {
+        return [...prev, productId];
+      }
+    });
+  };
+
+  // Handle select all products
+  const handleSelectAll = () => {
+    if (selectedProducts.length === filteredProducts.length) {
+      setSelectedProducts([]);
+    } else {
+      setSelectedProducts(filteredProducts.map(product => product._id));
+    }
+  };
+
+  // Open bulk delete confirmation
+  const handleBulkDeleteConfirm = () => {
+    if (selectedProducts.length > 0) {
+      setBulkDeleteConfirm(true);
+      setMessage('');
+      setError('');
+    }
+  };
+
+  // Cancel bulk delete
+  const handleCancelBulkDelete = () => {
+    setBulkDeleteConfirm(false);
+  };
+
+  // Execute bulk delete
+  const handleBulkDelete = async () => {
+    try {
+      setLoading(true);
+      
+      // Delete all selected products
+      await Promise.all(
+        selectedProducts.map(productId =>
+          axios.delete(`https://balajii-electronices.onrender.com/api/products/${productId}`)
+        )
+      );
+      
+      // Remove deleted products from the local state
+      setProducts(products.filter(product => !selectedProducts.includes(product._id)));
+      
+      setMessage(`Successfully deleted ${selectedProducts.length} product(s)!`);
+      setSelectedProducts([]);
+      setBulkDeleteConfirm(false);
+    } catch (error) {
+      const apiError = error as ApiError;
+      console.error('Error deleting products:', error);
+      setError(apiError.response?.data?.error || 'Error deleting products');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   // Filter products based on search term and selected unit
   const filteredProducts = products.filter(product => {
     // First filter by search term
@@ -237,8 +300,23 @@ const ProductList = () => {
           {selectedUnit !== 'all' && (
             <span className="filter-info"> (Filtered by {selectedUnit})</span>
           )}
+          {selectedProducts.length > 0 && (
+            <span className="selected-count"> | Selected: {selectedProducts.length}</span>
+          )}
         </div>
       </div>
+      
+      {/* Bulk actions section */}
+      {selectedProducts.length > 0 && (
+        <div className="bulk-actions">
+          <button 
+            className="bulk-delete-button"
+            onClick={handleBulkDeleteConfirm}
+          >
+            Delete Selected ({selectedProducts.length})
+          </button>
+        </div>
+      )}
       
       {/* Unit filter buttons */}
       <div className="filter-buttons-container">
@@ -268,6 +346,32 @@ const ProductList = () => {
       {message && <div className="success-message">{message}</div>}
       {error && <div className="error-message">{error}</div>}
       
+      {/* Bulk delete confirmation dialog */}
+      {bulkDeleteConfirm && (
+        <div className="bulk-delete-confirm">
+          <div className="bulk-delete-message">
+            Are you sure you want to delete <strong>{selectedProducts.length}</strong> selected product(s)?
+            This action cannot be undone.
+          </div>
+          <div className="bulk-delete-actions">
+            <button 
+              className="delete-confirm-button"
+              onClick={handleBulkDelete}
+              disabled={loading}
+            >
+              {loading ? 'Deleting...' : 'Yes, Delete All'}
+            </button>
+            <button 
+              className="cancel-button"
+              onClick={handleCancelBulkDelete}
+              disabled={loading}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
+      
       {loading && !editingProduct && !deleteConfirm ? (
         <div className="loading">Loading products...</div>
       ) : (
@@ -283,6 +387,14 @@ const ProductList = () => {
               <table className="products-table">
                 <thead>
                   <tr>
+                    <th className="checkbox-column">
+                      <input
+                        type="checkbox"
+                        checked={selectedProducts.length === filteredProducts.length && filteredProducts.length > 0}
+                        onChange={handleSelectAll}
+                        className="product-checkbox"
+                      />
+                    </th>
                     <th>Item Code</th>
                     <th>Description</th>
                     <th>Unit</th>
@@ -299,6 +411,13 @@ const ProductList = () => {
                       {editingProduct === product._id ? (
                         // Edit mode
                         <>
+                          <td className="checkbox-column">
+                            <input
+                              type="checkbox"
+                              disabled
+                              className="product-checkbox"
+                            />
+                          </td>
                           <td>
                             <input
                               type="text"
@@ -391,6 +510,13 @@ const ProductList = () => {
                       ) : deleteConfirm === product._id ? (
                         // Delete confirmation mode
                         <>
+                          <td className="checkbox-column">
+                            <input
+                              type="checkbox"
+                              disabled
+                              className="product-checkbox"
+                            />
+                          </td>
                           <td colSpan={7} className="delete-confirm-message">
                             Are you sure you want to delete product with item code <strong>{product.itemCode}</strong>?
                           </td>
@@ -414,6 +540,14 @@ const ProductList = () => {
                       ) : (
                         // View mode
                         <>
+                          <td className="checkbox-column">
+                            <input
+                              type="checkbox"
+                              checked={selectedProducts.includes(product._id)}
+                              onChange={() => handleSelectProduct(product._id)}
+                              className="product-checkbox"
+                            />
+                          </td>
                           <td>{product.itemCode}</td>
                           <td>{product.itemDescription}</td>
                           <td>{product.unit}</td>
@@ -449,4 +583,4 @@ const ProductList = () => {
   );
 };
 
-export default ProductList; 
+export default ProductList;
