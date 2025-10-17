@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import AdminLayout from '../components/layout/AdminLayout';
 import UserLayout from '../components/layout/UserLayout';
@@ -24,6 +24,7 @@ export const AuthContext = React.createContext<{
 const AppRoutes = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userRole, setUserRole] = useState('');
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
 
   const login = (role: string) => {
     setIsLoggedIn(true);
@@ -35,6 +36,24 @@ const AppRoutes = () => {
     setUserRole('');
   };
 
+  // Initialize authentication from localStorage on mount
+  useEffect(() => {
+    const initAuth = () => {
+      const token = localStorage.getItem('token');
+      const savedUserType = localStorage.getItem('userType');
+      
+      if (token && savedUserType) {
+        // Restore authentication state
+        setIsLoggedIn(true);
+        setUserRole(savedUserType);
+      }
+      
+      // Mark auth check as complete
+      setIsCheckingAuth(false);
+    };
+
+    initAuth();
+  }, []);
   // Protected route component
   const ProtectedRoute = ({ 
     children, 
@@ -53,6 +72,18 @@ const AppRoutes = () => {
 
     return <>{children}</>;
   };
+
+  // Show loading screen while checking authentication
+  if (isCheckingAuth) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mb-4"></div>
+          <p className="text-gray-600 text-lg">Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <AuthContext.Provider value={{ isLoggedIn, userRole, login, logout }}>
@@ -80,13 +111,24 @@ const AppRoutes = () => {
           path="/user/*" 
           element={
             <ProtectedRoute requiredRole="user">
-              <UserLayout>
-                <Routes>
-                  <Route path="/" element={<UserDashboard />} />
-                  {/* Add more user routes here */}
-                </Routes>
-              </UserLayout>
+              <Routes>
+                <Route path="/" element={<UserLayout />} />
+                <Route path="/Dashboard" element={<UserDashboard />} />
+                {/* Add more user routes here */}
+              </Routes>
             </ProtectedRoute>
+          } 
+        />
+
+        {/* Default redirect */}
+        <Route 
+          path="*" 
+          element={
+            isLoggedIn ? (
+              <Navigate to={`/${userRole}`} replace />
+            ) : (
+              <Navigate to="/login" replace />
+            )
           } 
         />
       </Routes>
