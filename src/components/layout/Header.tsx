@@ -41,17 +41,17 @@ const Header = ({ isAdmin, children }: HeaderProps) => {
     <header className="bg-white/20 backdrop-blur-3xl backdrop-saturate-200 border-b border-white/10 shadow-sm">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
-          <div className="flex items-center">
+          {/* Left side - Logo and Brand Name */}
+          <div className="flex items-center space-x-3">
             {children}
-            <div className="flex items-center space-x-3">
-              <Logo className="h-10" />
-              <span className="font-semibold text-lg text-gray-900">
-                Balaji Electronics
-              </span>
-            </div>
+            <Logo className="h-10 w-10" />
+            <span className="font-bold text-xl text-gray-900">
+              Balaji Electronics
+            </span>
           </div>
 
-          <div className="flex items-center space-x-3 relative">
+          {/* Right side - Actions */}
+          <div className="flex items-center space-x-3">
             <button className="p-2 rounded-full bg-white/15 backdrop-blur-xl hover:bg-white/30 text-gray-700 transition-all duration-300 border border-white/20">
               <Bell size={20} />
             </button>
