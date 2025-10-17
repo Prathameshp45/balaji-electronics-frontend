@@ -62,9 +62,25 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-blue-50 to-blue-100">
-      <div className="w-full max-w-md mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-        <div className="bg-white rounded-2xl shadow-xl p-6 sm:p-8">
+    <div className="min-h-screen w-full flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+      {/* Animated Background Elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        {/* Floating Circles */}
+        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-200/30 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-purple-200/30 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-indigo-200/20 rounded-full blur-3xl animate-pulse delay-500"></div>
+        
+        {/* Grid Pattern */}
+        <div className="absolute inset-0 bg-gradient-to-br from-transparent via-blue-100/20 to-transparent"></div>
+        
+        {/* Floating Squares */}
+        <div className="absolute top-1/4 right-1/4 w-16 h-16 border-2 border-blue-300/30 rotate-45 animate-spin-slow"></div>
+        <div className="absolute bottom-1/4 left-1/4 w-12 h-12 border-2 border-purple-300/30 rotate-12 animate-bounce-slow"></div>
+        <div className="absolute top-3/4 right-1/3 w-20 h-20 border-2 border-indigo-300/20 -rotate-12 animate-float"></div>
+      </div>
+
+      <div className="w-full max-w-md mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 relative z-10">
+        <div className="bg-white/95 backdrop-blur-xl rounded-3xl shadow-2xl p-6 sm:p-8 border border-white/20 transform hover:scale-[1.02] transition-transform duration-300">
           <div className="text-center space-y-3">
             <div className="flex justify-center">
               <div className="w-24 h-24 sm:w-32 sm:h-32">
