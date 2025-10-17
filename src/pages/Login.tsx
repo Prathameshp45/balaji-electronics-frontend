@@ -1,9 +1,9 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
 import { AuthContext } from '../routes/AppRoutes';
 import { useNavigate } from 'react-router-dom';
 import Logo from '../components/common/Logo';
-import { User, Lock, LogIn, Phone, Mail } from 'lucide-react';
+import { Lock, LogIn, Phone, Mail } from 'lucide-react';
 import axios from 'axios';
 
 const Login: React.FC = () => {
@@ -15,50 +15,6 @@ const Login: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
-
-  // Auto-login if data exists in localStorage
-  useEffect(() => {
-    const checkAuth = async () => {
-      const token = localStorage.getItem('token');
-      const savedUserType = localStorage.getItem('userType');
-      
-      if (token && savedUserType) {
-        try {
-          // Verify token with backend
-          const response = await axios.get('https://balajii-electronices.onrender.com/api/users/profile', {
-            headers: {
-              Authorization: `Bearer ${token}`
-            }
-          });
-
-          if (response.data.success) {
-            // Update auth context
-            login(savedUserType);
-            
-            // Navigate based on role
-            if (savedUserType === 'user') {
-              navigate('/user/Dashboard');
-            } else if (savedUserType === 'admin') {
-              navigate('/admin/*');
-            }
-          } else {
-            // If token is invalid, clear storage
-            localStorage.removeItem('token');
-            localStorage.removeItem('userType');
-            localStorage.removeItem('userName');
-          }
-        } catch (error) {
-          console.error('Auth check error:', error);
-          // If there's an error, clear storage
-          localStorage.removeItem('token');
-          localStorage.removeItem('userType');
-          localStorage.removeItem('userName');
-        }
-      }
-    };
-
-    checkAuth();
-  }, [navigate, login]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -86,9 +42,9 @@ const Login: React.FC = () => {
 
         // Navigate based on role
         if (role === 'user') {
-          navigate('/user/dashboard');
+          navigate('/user/');
         } else if (role === 'admin') {
-          navigate('/admin/dashboard');
+          navigate('/admin/');
         }
       } else {
         setError(response.data.message || 'Login failed');
