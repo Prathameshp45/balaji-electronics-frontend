@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ChangeEvent } from 'react';
+import { useState, useEffect, ChangeEvent } from 'react';
 import axios from 'axios';
 import Header from './Header';
 
@@ -21,6 +21,7 @@ const UserLayout = () => {
   const [message, setMessage] = useState('');
   const [selectedUnit, setSelectedUnit] = useState('all');
   const [uniqueUnits, setUniqueUnits] = useState<string[]>([]);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   useEffect(() => {
     fetchProducts();
@@ -32,6 +33,23 @@ const UserLayout = () => {
       setUniqueUnits(units.sort());
     }
   }, [products]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      if (!target.closest('.dropdown-container')) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    if (isDropdownOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isDropdownOpen]);
 
   const fetchProducts = async () => {
     try {
@@ -53,6 +71,7 @@ const UserLayout = () => {
 
   const handleUnitFilter = (unit: string) => {
     setSelectedUnit(unit);
+    setIsDropdownOpen(false);
   };
 
   const filteredProducts = products.filter(product => {
@@ -69,12 +88,12 @@ const UserLayout = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header />
+      <Header isAdmin={false} />
       <main className="container mx-auto px-2 sm:px-4 lg:px-6 py-4 sm:py-6 lg:py-8">
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
           {/* Header Section */}
           <div className="p-3 sm:p-6 border-b border-gray-200">
-            <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 mb-4">Products Listtt</h1>
+            <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 mb-4">Products List</h1>
 
             {/* Search Section */}
             <div className="space-y-4">
@@ -91,31 +110,68 @@ const UserLayout = () => {
                 </svg>
               </div>
 
-              {/* Unit Filter Buttons */}
-              <div className="flex flex-wrap gap-1 sm:gap-2">
+              {/* Category Dropdown */}
+              <div className="relative dropdown-container">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Filter by Category
+                </label>
                 <button
-                  onClick={() => handleUnitFilter('all')}
-                  className={`px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium transition-colors ${
-                    selectedUnit === 'all' 
-                      ? 'bg-blue-600 text-white shadow-sm' 
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                  }`}
+                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                  className="w-full sm:w-64 px-4 py-2 text-left bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
                 >
-                  All ({products.length})
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-medium text-gray-900">
+                      {selectedUnit === 'all' 
+                        ? `All Categories (${products.length})` 
+                        : `${selectedUnit} (${getUnitCount(selectedUnit)})`
+                      }
+                    </span>
+                    <svg 
+                      className={`h-5 w-5 text-gray-400 transition-transform ${isDropdownOpen ? 'transform rotate-180' : ''}`} 
+                      fill="none" 
+                      stroke="currentColor" 
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </div>
                 </button>
-                {uniqueUnits.map(unit => (
-                  <button
-                    key={unit}
-                    onClick={() => handleUnitFilter(unit)}
-                    className={`px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium transition-colors ${
-                      selectedUnit === unit 
-                        ? 'bg-blue-600 text-white shadow-sm' 
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    }`}
-                  >
-                    {unit} ({getUnitCount(unit)})
-                  </button>
-                ))}
+
+                {/* Dropdown Menu */}
+                {isDropdownOpen && (
+                  <div className="absolute z-10 w-full sm:w-64 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                    <button
+                      onClick={() => handleUnitFilter('all')}
+                      className={`w-full px-4 py-2 text-left text-sm hover:bg-gray-50 transition-colors ${
+                        selectedUnit === 'all' 
+                          ? 'bg-blue-50 text-blue-700 font-medium' 
+                          : 'text-gray-700'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between">
+                        <span>All Categories</span>
+                        <span className="text-xs text-gray-500">({products.length})</span>
+                      </div>
+                    </button>
+                    <div className="border-t border-gray-200"></div>
+                    {uniqueUnits.map(unit => (
+                      <button
+                        key={unit}
+                        onClick={() => handleUnitFilter(unit)}
+                        className={`w-full px-4 py-2 text-left text-sm hover:bg-gray-50 transition-colors ${
+                          selectedUnit === unit 
+                            ? 'bg-blue-50 text-blue-700 font-medium' 
+                            : 'text-gray-700'
+                        }`}
+                      >
+                        <div className="flex items-center justify-between">
+                          <span>{unit}</span>
+                          <span className="text-xs text-gray-500">({getUnitCount(unit)})</span>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           </div>
