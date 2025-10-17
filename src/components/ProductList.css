@@ -262,4 +262,87 @@
 button:disabled {
   opacity: 0.7;
   cursor: not-allowed;
+}
+
+/* Bulk selection styles */
+.selected-count {
+  color: #2563eb;
+  font-weight: 600;
+}
+
+.bulk-actions {
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  background-color: #eff6ff;
+  border-radius: 0.375rem;
+  border: 1px solid #bfdbfe;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.bulk-delete-button {
+  padding: 0.5rem 1rem;
+  background-color: #dc2626;
+  color: white;
+  border: none;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.bulk-delete-button:hover {
+  background-color: #b91c1c;
+}
+
+.bulk-delete-confirm {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background-color: #fef2f2;
+  border: 2px solid #fecaca;
+  border-radius: 0.5rem;
+}
+
+.bulk-delete-message {
+  color: #dc2626;
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+.bulk-delete-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* Checkbox column styles */
+.checkbox-column {
+  width: 40px;
+  text-align: center;
+  padding: 0.5rem !important;
+}
+
+.product-checkbox {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  accent-color: #2563eb;
+}
+
+.product-checkbox:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .bulk-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .bulk-delete-button {
+    width: 100%;
+  }
 } 
