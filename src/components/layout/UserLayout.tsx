@@ -87,13 +87,20 @@ const UserLayout = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-100 via-blue-50 to-indigo-100 relative overflow-hidden">
+      {/* iPhone-style Liquid Glass Background Elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-br from-blue-300/30 to-indigo-300/20 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-gradient-to-tr from-cyan-300/25 to-blue-300/20 rounded-full blur-3xl"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[450px] h-[450px] bg-gradient-to-r from-indigo-300/15 to-purple-300/15 rounded-full blur-3xl"></div>
+      </div>
+      
       <Header isAdmin={false} />
-      <main className="container mx-auto px-2 sm:px-4 lg:px-6 py-4 sm:py-6 lg:py-8">
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+      <main className="container mx-auto px-2 sm:px-4 lg:px-6 py-4 sm:py-6 lg:py-8 relative z-10">
+        <div className="bg-white/25 backdrop-blur-3xl backdrop-saturate-200 rounded-3xl shadow-2xl border border-white/20 overflow-hidden">
           {/* Header Section */}
-          <div className="p-3 sm:p-6 border-b border-gray-200">
-            <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 mb-4">Products List</h1>
+          <div className="p-3 sm:p-6 border-b border-white/10 bg-white/5">
+            <h1 className="text-lg sm:text-xl lg:text-2xl font-semibold text-gray-900 mb-4">Products List</h1>
 
             {/* Search Section */}
             <div className="space-y-4">
@@ -103,11 +110,11 @@ const UserLayout = () => {
                   placeholder="Search by item code or description..."
                   value={searchTerm}
                   onChange={handleSearch}
-                  className="w-full px-3 py-2 pl-10 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2.5 pl-10 text-sm bg-white/20 backdrop-blur-3xl backdrop-saturate-200 border border-white/20 rounded-2xl focus:ring-2 focus:ring-blue-400/20 focus:border-white/30 focus:bg-white/30 shadow-sm transition-all placeholder:text-gray-600"
                 />
-                <svg className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                {/* <svg className="absolute left-3 top-3 h-4 w-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
+                </svg> */}
               </div>
 
               {/* Category Dropdown */}
@@ -117,7 +124,7 @@ const UserLayout = () => {
                 </label>
                 <button
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                  className="w-full sm:w-64 px-4 py-2 text-left bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                  className="w-full sm:w-64 px-4 py-2.5 text-left bg-white/20 backdrop-blur-3xl backdrop-saturate-200 border border-white/20 rounded-2xl shadow-sm hover:bg-white/30 focus:outline-none focus:ring-2 focus:ring-blue-400/20 focus:border-white/30 transition-all"
                 >
                   <div className="flex items-center justify-between">
                     <span className="text-sm font-medium text-gray-900">
@@ -139,34 +146,34 @@ const UserLayout = () => {
 
                 {/* Dropdown Menu */}
                 {isDropdownOpen && (
-                  <div className="absolute z-10 w-full sm:w-64 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                  <div className="absolute z-10 w-full sm:w-64 mt-2 bg-white/25 backdrop-blur-3xl backdrop-saturate-200 border border-white/20 rounded-2xl shadow-2xl max-h-60 overflow-y-auto">
                     <button
                       onClick={() => handleUnitFilter('all')}
-                      className={`w-full px-4 py-2 text-left text-sm hover:bg-gray-50 transition-colors ${
+                      className={`w-full px-4 py-2.5 text-left text-sm hover:bg-white/30 transition-all rounded-xl ${
                         selectedUnit === 'all' 
-                          ? 'bg-blue-50 text-blue-700 font-medium' 
-                          : 'text-gray-700'
+                          ? 'bg-white/20 text-gray-900 font-medium' 
+                          : 'text-gray-800'
                       }`}
                     >
                       <div className="flex items-center justify-between">
                         <span>All Categories</span>
-                        <span className="text-xs text-gray-500">({products.length})</span>
+                        <span className="text-xs text-gray-600">({products.length})</span>
                       </div>
                     </button>
-                    <div className="border-t border-gray-200"></div>
+                    <div className="border-t border-white/15 mx-2"></div>
                     {uniqueUnits.map(unit => (
                       <button
                         key={unit}
                         onClick={() => handleUnitFilter(unit)}
-                        className={`w-full px-4 py-2 text-left text-sm hover:bg-gray-50 transition-colors ${
+                        className={`w-full px-4 py-2.5 text-left text-sm hover:bg-white/30 transition-all rounded-xl ${
                           selectedUnit === unit 
-                            ? 'bg-blue-50 text-blue-700 font-medium' 
-                            : 'text-gray-700'
+                            ? 'bg-white/20 text-gray-900 font-medium' 
+                            : 'text-gray-800'
                         }`}
                       >
                         <div className="flex items-center justify-between">
                           <span>{unit}</span>
-                          <span className="text-xs text-gray-500">({getUnitCount(unit)})</span>
+                          <span className="text-xs text-gray-600">({getUnitCount(unit)})</span>
                         </div>
                       </button>
                     ))}
@@ -198,8 +205,8 @@ const UserLayout = () => {
             <>
               {/* Responsive Table */}
               <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-200">
-                  <thead className="bg-gray-50">
+                <table className="min-w-full divide-y divide-white/10">
+                  <thead className="bg-white/10 backdrop-blur-2xl backdrop-saturate-200">
                     <tr>
                       <th className="px-2 sm:px-4 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Item Code
